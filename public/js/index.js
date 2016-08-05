@@ -1,8 +1,9 @@
 $(window, document, undefined).ready(function() {
+
   var i = 1;
   $('#add').click(function(){
     i++;
-    $('#add_field').append('<tr id="row'+i+'"> <td> <div class="group"> <input type="text" name="name[]" placeholder="Enter Field Name"><span class="highlight"></span><span class="bar"></span></div> </td> <td> <button type="button" id="'+i+'" class="btn btn-danger delete" >-</button> </td> </tr> </table>');
+    $('#add_field').append('<tr id="row'+i+'"> <td> <div class="group"> <input type="text" name="name[]" placeholder="Enter Field Name" required><span class="highlight"></span><span class="bar"></span></div> </td> <td> <button type="button" id="'+i+'" class="btn btn-danger delete" >-</button> </td> </tr> </table>');
   });
   $(document).on('click','.delete',function(){
     var btn = $(this).attr("id");
@@ -19,10 +20,28 @@ $(window, document, undefined).ready(function() {
       data: $('#myForm').serialize(),
       success: function(data)
       {
-        console.log(data);
+       // alert(data);
+       // $('#name').html('');
       }
     })
   });
+
+    $('#save').click(function(){
+        //sets up  csrf token attribute in the request header.
+        $.ajaxSetup({
+            headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+        });
+        $.ajax({
+            url: 'edit',
+            method: "POST",
+            data: $('#myForm').serialize(),
+            success: function(data)
+            {
+                // alert(data);
+                // $('#name').html('');
+            }
+        })
+    });
   $('input').blur(function() {
     var $this = $(this);
     if ($this.val())

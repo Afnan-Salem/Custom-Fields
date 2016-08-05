@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('form');
-});
+Route::get('/','fieldsController@show');
 Route::post('submit', 'fieldsController@index');
+Route::get('edit/{id}', 'fieldsController@edit');
+Route::get('delete/{id}', 'fieldsController@delete');
+
+
